@@ -1,13 +1,35 @@
 [
   {
     "name": "week",
-    "title": "This week",
-    "subtitle": "Business Valuation for Claude Code: what needs attention, rendered by npm run view",
+    "title": "Valuation office: this week",
+    "subtitle": "Fictional demo records unless replaced. Draft analysis only.",
     "sections": [
       {
-        "title": "Needs attention",
-        "note": "TODO(author): point this at the industry's attention view (overdue, stuck, quiet).",
-        "sql": "select 'replace me' as item, 'TODO(author)' as why"
+        "title": "Engagements",
+        "sql": "select code,name,currency,due_date,revision,findings,open_actions from v_engagements order by due_date"
+      },
+      {
+        "title": "Attention",
+        "sql": "select code,name,reason,due_date,owner from v_attention order by due_date"
+      },
+      {
+        "title": "Review findings",
+        "sql": "select code,rule,finding from v_compliance order by code,rule"
+      }
+    ]
+  },
+  {
+    "name": "methods",
+    "title": "Draft valuation methods",
+    "subtitle": "Each currency stands alone. No portfolio total or automatic conversion.",
+    "sections": [
+      {
+        "title": "Scenarios",
+        "sql": "select code,currency,scenario,multiples_equity as multiples_equity_amount,dcf_equity as dcf_equity_amount,book_net_assets as book_net_assets_amount,calculation_state from v_valuations order by code,scenario"
+      },
+      {
+        "title": "Comparable evidence",
+        "sql": "select code,name,currency,implied_multiple,flag from v_comparables order by code,name"
       }
     ]
   }

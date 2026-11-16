@@ -1,115 +1,92 @@
-<h1 align="center">Business Valuation for Claude Code</h1>
+# Business Valuation for Claude Code
 
-<p align="center">
-  <strong>The open-source business valuation workbench that is just a database and Claude Code.</strong>
-</p>
+Your valuation engagements, financials, adjustments, scenarios and evidence in a database you own. Works with Claude Code, Codex, OpenCode or Cursor. MIT-licensed software from Enterprise DNA.
 
-<p align="center">
-  Created by <a href="https://www.enterprisedna.co"><strong>Enterprise DNA</strong></a>. Free and open source. Works with Claude Code, Codex, OpenCode or Cursor.
-</p>
+| Do it yourself | We customise it | We run it for you |
+|---|---|---|
+| Free source code. Install the demo, map your financial worksheet and run the desk. | Your fields, review rules, reports and ValuSource history mapped across. [Get your version built](https://enterprisedna.co/omni/book/?offer=replace-software&utm_campaign=valusource). | Installed and operated through Omni by Enterprise DNA. One setup fee, then a retainer. [Book a call](https://enterprisedna.co/omni/book/?offer=replace-software&utm_campaign=valusource). |
 
-<!-- three-doors -->
-<table align="center">
-  <tr>
-    <td align="center"><strong>Do it yourself</strong><br/>Clone it, run it, own it. Free, MIT.<br/><a href="#quick-start">Quick start</a></td>
-    <td align="center"><strong>We customise it</strong><br/>Your fields, your rules, your ValuSource data brought across.<br/><a href="https://enterprisedna.co/omni/book/?utm_source=github&utm_medium=readme&utm_campaign=valusource">Book a call</a></td>
-    <td align="center"><strong>We run it for you</strong><br/>Installed, connected and operated inside Omni. Setup fee, then a retainer.<br/><a href="https://enterprisedna.co/omni/instead-of/valusource?utm_source=github&utm_medium=readme&utm_campaign=valusource">How it works</a></td>
-  </tr>
-</table>
+## What this replaces
 
-<p align="center">
-  <a href="#what-is-this">What is this</a> &bull;
-  <a href="#why-no-front-end">Why no front end</a> &bull;
-  <a href="#quick-start">Quick start</a> &bull;
-  <a href="#the-commands">Commands</a> &bull;
-  <a href="#instead-of-valusource">Instead of ValuSource</a> &bull;
-  <a href="#want-it-installed-and-run-for-you">Installed for you</a> &bull;
-  <a href="#license">License</a>
-</p>
+The record work behind a business valuation practice: scope review, financial normalisation, explicit scenario calculations, comparable evidence, review follow-up and draft workpapers. The base works from your entered data. It does not reproduce ValuSource's licensed datasets, all its methods or proprietary workbook formulas. A practitioner chooses the assumptions and issues the professional conclusion. Independent software, not affiliated with ValuSource.
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Node-20+-339933?style=flat-square" alt="Node 20+" />
-  <img src="https://img.shields.io/badge/PostgreSQL-any-336791?style=flat-square" alt="PostgreSQL" />
-  <img src="https://img.shields.io/badge/PGlite-embedded-3ecf8e?style=flat-square" alt="PGlite" />
-  <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="MIT License" />
-</p>
-
----
-
-## What is this
-
-Business Valuation for Claude Code does the job you pay ValuSource for, as a Postgres database and a set of agent commands. There is no web front end. You open the folder in [Claude Code](https://claude.com/claude-code) (or Codex, OpenCode, Cursor: see `AGENTS.md`) and ask for what you want in plain language. It runs the right query, and it can answer questions the ValuSource dashboard cannot.
-
-<!-- TODO(author): the annual bill. One sentence: what a 10 to 50 person business typically pays ValuSource per year, all in, with a source. -->
-
-Want the same thing with a web front end, or built on a different stack? That is a customisation, and it is exactly what Enterprise DNA does: [book a call](https://enterprisedna.co/omni/book/?utm_source=github&utm_medium=readme&utm_campaign=valusource).
-
-<!-- TODO(author): two or three sentences on what this specific product covers and who it is for. -->
-
-## Why no front end
-
-- The front end was only ever there because the database was hard to talk to. That is no longer true.
-- Your data sits in plain Postgres tables you own. Any tool can read them. No export, no lock-in.
-- No seats, no tiers, no add-ons. Read [docs/why-no-front-end.md](docs/why-no-front-end.md) for the honest trade-offs too.
+ValuSource's [pricing page](https://www.valusource.com/pricing/), checked 16 November 2026, lists an annual multi-user software base of US$1,465 plus US$1,025 per charged user. Local customer invoices were not verified. See the landing page for the comparison; no savings or replacement of purchased data rights is promised.
 
 ## Quick start
 
-Sixty seconds, no database install (an embedded Postgres runs inside Node):
+Node 22.13 or later. No database account is needed for the embedded demo.
 
 ```bash
 git clone https://github.com/Enterprise-DNA-OS/business-valuation-for-claude-code.git
 cd business-valuation-for-claude-code
 npm install
+npm test
 npm run demo
+npm run valuation -- attention
+npm run valuation -- valuations
+npm run valuation -- compliance
+npm run view
+npm run docs
 ```
 
-Then open the folder in Claude Code and type a slash command. <!-- TODO(author): name the first command to try. -->
+Demo records are fictional. They include an overdue engagement, a missing forecast year, expired evidence and an unaccepted adjustment. Seed is idempotent and leaves a nonempty engagement store alone. Never seed a working database. Shared seed requires an explicit --demo-database flag.
 
-### Use it with your own Postgres or Supabase
+Without DATABASE_URL, PGlite stores records in .data/db or DATA_DIR. With DATABASE_URL, the same migrations use PostgreSQL. The base is for trusted operators: row security and public-role revocations do not provide individual user authentication. Configure roles, private storage and tested backups before shared use. Actor names are audit labels, not authenticated identities.
 
-Copy `.env.example` to `.env`, set `DATABASE_URL`, then `npm run migrate`. Same commands, shared data, no per-seat fee.
+## Five weekly rituals
 
-## The commands
+- /scope-review finds missing terms, independence notes and evidence.
+- /earnings-review compares reported earnings with accepted adjustments.
+- /scenario-review compares draft methods and rate sensitivity.
+- /evidence-follow-up lists overdue source reviews and assigned actions.
+- /weekly-review writes the Monday pack from engagements, attention and compliance.
 
-<!-- TODO(author): a table of the slash commands in .claude/commands and what each one does. -->
+The CLI has 43 commands, human output by default and --json for machines. Read [the command reference](docs/cli.md). Exact codes, case-insensitive names and UUID prefixes work. Ambiguous names list candidates and exit 1. Mutations require --actor. No command sends, publishes or deletes business records.
 
-| Command | What it does |
-|---|---|
-| `/...` | ... |
+## Ten questions to ask
 
-## Instead of ValuSource
+These cross-record questions work today. They are not a claim that ValuSource cannot produce similar analysis.
 
-<!-- TODO(author): how to bring data across from ValuSource; link docs/replace-valusource.md -->
+1. Which engagements are overdue and still have open evidence actions? `attention`
+2. Which financial year feeds each valuation, and what adjustments were accepted? `financials`
+3. Which forecast has a missing year that prevents a DCF calculation? `valuations`
+4. How do the entered earnings and cash-flow methods differ by scenario? `valuations`
+5. Which source records are overdue for review? `source-gaps`
+6. Which comparable observations differ in currency or age? `comparables`
+7. Which reviews became stale after the underlying numbers changed? `reviews`
+8. How does a one-percentage-point rate change affect the draft equity value? `sensitivity DEMO-001`
+9. Which engagements have missing independence or retention notes? `compliance`
+10. Who changed the assumptions and what were the previous values? `audit`
 
-## Architecture
+## Calculation and review contract
 
-```
-business-valuation-for-claude-code/
-  CLAUDE.md                 how the operator wants this run (routing table + house rules)
-  AGENTS.md                 the same, for Codex / OpenCode / Cursor / Gemini CLI
-  .claude/commands/         the slash commands
-  scripts/                  the CLI the commands drive
-  scripts/lib/db.mjs        one adapter: DATABASE_URL (pg) or embedded PGlite
-  supabase/migrations/      plain SQL schema
-  supabase/seed.sql         demo data
-  docs/                     the thesis and the migration guide
-```
+Read [the methods](docs/calculations.md). DCF uses explicit annual free cash flows to the firm, an entered discount rate and terminal growth. The earnings method uses accepted adjustments and an entered multiple. Book net assets remain labelled as book amounts. Currencies never combine automatically. Missing inputs remain unknown. No automatic method weighting, marketability discount, control premium or final valuation conclusion is supplied.
 
-## Built for coding agents
+Read [the compliance scope](docs/compliance.md). The office checks selected APES 225 record fields and operator-set retention dates. It does not certify compliance. Changing the inputs invalidates the recorded review; accepted reviews do not issue a report. Evidence and import history remain auditable.
 
-The database, CLI and command recipes work with Claude Code, Codex, OpenCode or Cursor. Ask your coding agent for a new command and have it implement and test the change against the same records.
+## Your first hour: ten things to ask for
 
-## Contributing
+1. Change the business name and colours on every document.
+2. Show this week's overdue engagements.
+3. Explain the missing forecast in the demo.
+4. Compare accepted and pending earnings adjustments.
+5. Draft a request for the missing evidence.
+6. Add a downside scenario with assumptions I provide.
+7. Show the effect of a discount-rate change.
+8. Map my prepared financial worksheet and run a dry run.
+9. Add a purpose field or review policy through /customise.
+10. Add a read-only partner dashboard through /new-view.
 
-Issues and pull requests are welcome. Keep the shape: plain SQL, a small CLI, a slash command per recurring job, no front end.
+## Bring your history
 
-## Want it installed and run for you?
+[The ValuSource switching guide](docs/replace-valusource.md) distinguishes the original workbook from the prepared CSV used here. The importer handles annual financials with an explicit mapping, one atomic transaction, repeat detection, original bytes and an audit trail. A real customer workbook has not been tested. Forecasts, assumptions and evidence are separate entry steps. Mapping and reconciliation come before any switch-in-a-day commitment.
 
-Enterprise DNA installs Business Valuation for Claude Code for your business, migrates your ValuSource data, connects it to the rest of your tools, and runs it for you as part of **Omni**, our managed Command Center. One setup fee, then a monthly retainer.
+Exports contain all eleven collections and a count manifest. They are archives, not a restoration command. Test database backups separately. Keep exports, generated documents, workbooks and private records out of Git.
 
-- Book a call: [enterprisedna.co/omni/book](https://enterprisedna.co/omni/book/?offer=replace-software&utm_source=github&utm_medium=readme&utm_campaign=valusource)
-- Read more: [enterprisedna.co/omni/instead-of/valusource](https://enterprisedna.co/omni/instead-of/valusource?utm_source=github&utm_medium=readme&utm_campaign=valusource)
+## Validation
 
-## License
+npm test creates a temporary store, migrates twice, seeds twice and exercises all 43 commands. It checks a separately calculated DCF result, incomplete forecasts, independent review, revision invalidation, invalid amounts and dates, atomic import rollback, dry-run behaviour, original bytes, duplicate batches, HTML escaping, export counts and ambiguous-name exits. A manually dispatched workflow covers Windows and Linux with Node 22 and 24, plus PostgreSQL 17. Local test success does not imply those remote jobs have run.
 
-MIT. Copyright (c) 2026 Enterprise DNA.
+## Installed for you
+
+Enterprise DNA maps the records, adapts the methods and review rules, and operates your desk through Omni by Enterprise DNA. One setup fee, then a retainer. [Book Sam's 30-minute call](https://enterprisedna.co/omni/book/?offer=replace-software&utm_campaign=valusource).

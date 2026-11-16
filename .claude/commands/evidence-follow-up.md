@@ -1,0 +1,13 @@
+---
+description: "evidence follow up for the business valuation desk"
+---
+
+# evidence-follow-up
+
+Read CLAUDE.md. Run these commands from the repo:
+
+npm run valuation -- attention
+npm run valuation -- source-gaps
+npm run valuation -- actions
+
+Join by engagement code. Explain the findings and missing records in the operator's words. Keep each currency separate. Record any agreed follow-up through add-action with the operator named. No sending or certification.

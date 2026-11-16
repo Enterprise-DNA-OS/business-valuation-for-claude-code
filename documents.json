@@ -1,11 +1,61 @@
 [
   {
-    "name": "example",
-    "title": "TODO(author): the first document this industry must produce",
-    "for_each": "select gen_random_uuid() as id, 'Example' as name",
+    "name": "valuation-workpaper",
+    "title": "DRAFT valuation workpaper",
+    "for_each": "select id,name from engagements order by code",
     "file": "name",
     "sections": [
-      { "title": "Details", "sql": "select 'replace me' as item, $1::text as record_id" }
+      {
+        "title": "Scope",
+        "layout": "record",
+        "sql": "select code,name,currency,valuation_date,purpose,basis,premise,scope,intended_users,preparer,independence_note,revision from engagements where id=$1"
+      },
+      {
+        "title": "Reported financials and accepted adjustments",
+        "sql": "select period_end,revenue,ebitda,adjustment_amount,normalized_ebitda,cash,debt,source from v_financials where engagement_id=$1"
+      },
+      {
+        "title": "Draft method results",
+        "note": "Calculations from entered assumptions, not an issued valuation opinion. Book net assets are not fair-value net assets. No automatic weighting of methods. A qualified practitioner must assess inputs, suitability and report disclosures.",
+        "sql": "select scenario,currency,multiples_equity as multiples_equity_amount,dcf_equity as dcf_equity_amount,book_net_assets as book_net_assets_amount,calculation_state from v_valuations where engagement_id=$1"
+      },
+      {
+        "title": "Scenario assumptions",
+        "sql": "select name,discount_rate,terminal_growth,ebitda_multiple,rationale from scenarios where engagement_id=$1"
+      },
+      {
+        "title": "Forecast cash flows to the firm",
+        "sql": "select year_no,cashflow,source from forecasts where engagement_id=$1 order by year_no"
+      },
+      {
+        "title": "Evidence trail",
+        "sql": "select name,source,observed_on,review_due,owner from evidence where engagement_id=$1"
+      },
+      {
+        "title": "Review exceptions",
+        "sql": "select rule,finding,source from v_compliance where engagement_id=$1"
+      },
+      {
+        "title": "Review history",
+        "sql": "select revision,reviewer,decision,note,created_at from reviews where engagement_id=$1 order by created_at"
+      }
+    ]
+  },
+  {
+    "name": "information-request",
+    "title": "DRAFT information request",
+    "for_each": "select id,name from engagements order by code",
+    "file": "name",
+    "sections": [
+      {
+        "title": "Outstanding items",
+        "note": "For operator review before sending. No messages are sent by this software.",
+        "sql": "select name,owner,due_date from actions where engagement_id=$1 and status='open' order by due_date"
+      },
+      {
+        "title": "Evidence to check",
+        "sql": "select name,source,review_due from evidence where engagement_id=$1 order by review_due"
+      }
     ]
   }
 ]
